@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cinema Radar</title>
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+</head>
+<body>
+  <h1>🎬 Cinema Radar</h1>
+  <div id="calendar"></div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', async function () {
+      const res = await fetch("/events");
+      const data = await res.json();
+
+      const calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
+        initialView: 'dayGridMonth',
+        events: data.map(e => ({
+          title: `${e.title} (${e.location})`,
+          start: e.date
+        }))
+      });
+
+      calendar.render();
+    });
+  </script>
+</body>
+</html>
